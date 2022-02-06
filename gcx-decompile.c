@@ -62,10 +62,12 @@ gcx_command gcxcommands[] = {
 	{ 0xA242, "demo" },
 };
 
-typedef struct {
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
+PACK(typedef struct {
 	uint16_t name;
 	uint16_t off;
-}__attribute__((packed)) gcxdef;
+}) gcxdef;
 
 uint16_t gcx_proc(gcxdef def, unsigned char *data, FILE *out);
 uint16_t gcx_cmd(unsigned char *data, FILE *out);

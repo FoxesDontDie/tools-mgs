@@ -10,13 +10,15 @@
 #include <zlib.h>
 #include "lodepng/lodepng.h"
 
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
 typedef struct {
 	uint8_t red;
 	uint8_t green;
 	uint8_t blue;
 	uint8_t alpha;
 } paletteEntry;
-typedef struct {
+PACK(typedef struct {
 	uint32_t unknown1;
 	uint32_t unknown2;
 	uint32_t numTextures;
@@ -27,9 +29,9 @@ typedef struct {
 	uint32_t unknown3;
 	uint32_t unknown4;
 	// total textureHeader size 32 bytes
-}__attribute__((packed)) txpHeaderPO;
+}) txpHeaderPO;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t unknown1;
 	uint32_t namehash;
 	uint32_t numTextures;
@@ -40,7 +42,7 @@ typedef struct {
 	uint32_t framelistOffset;
 	uint32_t unknown3;
 	// total textureHeader size 32 bytes
-}__attribute__((packed)) txpHeaderPW;
+}) txpHeaderPW;
 
 typedef struct {
 	uint32_t namehash;
@@ -52,7 +54,7 @@ typedef struct {
 	unsigned int framelist;
 } txpHeader;
 
-typedef struct {
+PACK(typedef struct {
 	uint16_t bpp:4;
 	uint16_t compressed:12;
 	
@@ -67,9 +69,9 @@ typedef struct {
 	uint32_t offset;
 	uint32_t zoffset;
 	// total header size 20 bytes
-}__attribute__((packed)) textureHeaderPW;
+}) textureHeaderPW;
 
-typedef struct {
+PACK(typedef struct {
 	uint16_t width:12;
 	uint16_t unknown1:4;
 	
@@ -85,7 +87,7 @@ typedef struct {
 	uint32_t offset;
 	uint32_t palette;
 	// total header size 16 bytes
-}__attribute__((packed)) textureHeaderPO;
+}) textureHeaderPO;
 
 typedef struct {
 	unsigned int bpp;
@@ -98,7 +100,7 @@ typedef struct {
 	paletteEntry *palpixels;
 } textureHeader;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t unknown1;
 	uint32_t hash;
 	uint32_t texture;
@@ -114,9 +116,9 @@ typedef struct {
 	uint16_t x;
 	uint16_t y;
 	// total frameHeader size 40 bytes
-}__attribute__((packed)) frameHeaderPW;
+}) frameHeaderPW;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t unknown1;
 	uint32_t hash;
 	uint32_t unknown2;
@@ -133,7 +135,7 @@ typedef struct {
 	float fheight;
 	uint32_t unknown5;
 	// total frameHeader size 48 bytes
-}__attribute__((packed)) frameHeaderPO;
+}) frameHeaderPO;
 
 typedef struct {
 	uint32_t hash;

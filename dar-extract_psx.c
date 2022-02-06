@@ -42,10 +42,12 @@ int writeFile( FILE *input, int length, FILE *output ) {
 	return 1;
 }
 
-typedef struct {
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
+PACK(typedef struct {
 	uint32_t hash;
 	uint32_t size;
-}__attribute__((packed)) fileentry;
+}) fileentry;
 
 dicentry *commondic = NULL, *stagedic = NULL;
 int numcommondic = 0, numstagedic = 0, numdicentries = 0;

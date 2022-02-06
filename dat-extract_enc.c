@@ -17,7 +17,7 @@
 
 #ifdef _WIN32
 #include <direct.h>
-#define createDirectory(dirname) mkdir(dirname)
+#define createDirectory(dirname) _mkdir(dirname)
 #define cleanExecPath(path) *strrchr(path, '\\') = 0
 #define bswap_16(val) \
  ( (((val) >> 8) & 0x00FF) | (((val) << 8) & 0xFF00) )
@@ -364,15 +364,17 @@ typedef struct {
 	uint32_t offset;
 } tocStageEntry;
 
-typedef struct {
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
+PACK(typedef struct {
 	char name[8];
 	uint32_t offset;
-}__attribute__((packed)) tocStageEntrySmall;
+}) tocStageEntrySmall;
 
-typedef struct {
+PACK(typedef struct {
 	char name[16];
 	uint32_t offset;
-}__attribute__((packed)) tocStageEntryBig;
+}) tocStageEntryBig;
 
 typedef struct {
 	uint32_t size;
@@ -386,31 +388,31 @@ typedef struct {
 	uint32_t compressed;
 } fileinfo;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t hash;
 	uint32_t offset;
-}__attribute__((packed)) fileinfosmall;
+}) fileinfosmall;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t extension;
 	uint32_t hash;
 	uint32_t offset;
-}__attribute__((packed)) fileinfobig;
+}) fileinfobig;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t offset;
 	uint32_t hash;
 	uint32_t compressed;
 	uint32_t null;
-}__attribute__((packed)) fileinfoverybig;
+}) fileinfoverybig;
 
-typedef struct {
+PACK(typedef struct {
 	uint16_t version;
 	uint16_t numblocks;
 	uint16_t numStages;
 	uint16_t game;
 	uint32_t unknownhash;
-}__attribute__((packed)) tocDatHeader;
+}) tocDatHeader;
 
 unsigned char signatures[][6] = {
 	{ 0x10, 0x40, 0xC3, 0x06, 0x09, 0x00 }, /* SLES-50383 MGS2 */

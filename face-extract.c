@@ -13,7 +13,7 @@
 
 #ifdef _WIN32
 #include <direct.h>
-#define createDirectory(dirname) mkdir(dirname)
+#define createDirectory(dirname) _mkdir(dirname)
 #define cleanExecPath(path) *strrchr(path, '\\') = 0
 #else
 #include <sys/stat.h>
@@ -28,14 +28,16 @@
 
 #define color5to8(x) ((x*8)+(x/4))
 
-typedef struct {
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
+PACK(typedef struct {
 	uint16_t null;
 	uint16_t hash;
 	uint32_t size;
 	uint32_t offset;
-}__attribute__((packed)) faceinfo;
+}) faceinfo;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t bitmap;
 	uint32_t eye0;
 	uint32_t eye1;
@@ -43,26 +45,26 @@ typedef struct {
 	uint32_t mouth0;
 	uint32_t mouth1;
 	uint32_t mouth2;
-}__attribute__((packed)) simpleinfo;
+}) simpleinfo;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t palette;
 	uint32_t bitmap;
 	uint16_t unknown0;
 	uint16_t unknown1;
-}__attribute__((packed)) animationinfo;
+}) animationinfo;
 
-typedef struct {
+PACK(typedef struct {
 	uint8_t x;
 	uint8_t y;
 	uint8_t w;
 	uint8_t h;
-}__attribute__((packed)) imageinfo;
+}) imageinfo;
 
-typedef struct {
+PACK(typedef struct {
 	uint32_t hash;
 	uint32_t size;
-}__attribute__((packed)) fileentry;
+}) fileentry;
 
 dicentry *commondic = NULL, *stagedic = NULL;
 int numcommondic = 0, numstagedic = 0, numdicentries = 0;

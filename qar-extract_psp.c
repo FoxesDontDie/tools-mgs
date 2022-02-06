@@ -8,10 +8,12 @@
 #include <string.h>
 #include <stdint.h>
 
-typedef struct {
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+
+PACK(typedef struct {
 	uint32_t hash;
 	uint32_t size;
-}__attribute__((packed)) entry;
+}) entry;
 
 int writeFile( FILE *input, int length, FILE *output ) {
 	unsigned char dataBuffer[1024];
